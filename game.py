@@ -31,9 +31,15 @@ def draw_mandel_section(real_length, real_offset, imag_length, imag_offset):
             if is_m:
                 color = black
             else:
-                r = round((iterations / mandel.max_iterations) * 255)
-                g = round((iterations / mandel.max_iterations) * 150)
-                b = round((iterations / mandel.max_iterations) * 150)
+                ratio = (iterations / mandel.max_iterations)
+                if ratio > 0.5:
+                    r = round(ratio * 255)
+                    g = round(ratio * 255)
+                    b = round(ratio * 50)
+                else:
+                    r = round(ratio * 255)
+                    g = round(ratio * 50)
+                    b = round(ratio * 50)
                 color = [r, g, b]
             x = round((i / width_r) * width)
             y = round((j / height_r) * height)
