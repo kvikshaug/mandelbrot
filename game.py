@@ -22,26 +22,29 @@ print("Operating a %s x %s screen" % (width_r, height_r))
 # Draw screen once
 screen.fill(white)
 
-for i in range(width_r):
-    for j in range(height_r):
-        real = ((i / width_r) * 3) - 2
-        imag = ((j / height_r) * 2) - 1
-        is_m, iterations = mandel.is_in_mandelbrot_set(complex(real, imag))
-        if is_m:
-            color = black
-        else:
-            r = round((iterations / mandel.max_iterations) * 255)
-            g = round((iterations / mandel.max_iterations) * 150)
-            b = round((iterations / mandel.max_iterations) * 150)
-            color = [r, g, b]
-        x = round((i / width_r) * width)
-        y = round((j / height_r) * height)
-        if resolution == 1:
-            pygame.draw.circle(screen, color, [x, y], 0)
-        else:
-            rect = pygame.Rect(x, y, resolution, resolution)
-            pygame.draw.rect(screen, color, rect)
-    pygame.display.flip()
+def draw_mandel_section(real_length, real_offset, imag_length, imag_offset):
+    for i in range(width_r):
+        for j in range(height_r):
+            real = ((i / width_r) * real_length) - real_offset
+            imag = ((j / height_r) * imag_length) - imag_offset
+            is_m, iterations = mandel.is_in_mandelbrot_set(complex(real, imag))
+            if is_m:
+                color = black
+            else:
+                r = round((iterations / mandel.max_iterations) * 255)
+                g = round((iterations / mandel.max_iterations) * 150)
+                b = round((iterations / mandel.max_iterations) * 150)
+                color = [r, g, b]
+            x = round((i / width_r) * width)
+            y = round((j / height_r) * height)
+            if resolution == 1:
+                pygame.draw.circle(screen, color, [x, y], 0)
+            else:
+                rect = pygame.Rect(x, y, resolution, resolution)
+                pygame.draw.rect(screen, color, rect)
+        pygame.display.flip()
+
+draw_mandel_section(3, 2, 2, 1)
 
 # Start game
 loop=True
